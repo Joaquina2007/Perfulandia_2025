@@ -28,7 +28,7 @@ public class ProveedorController {
             Proveedor newProveedor = proveedorService.createProveedor(proveedor);
             return new ResponseEntity<>(newProveedor, HttpStatus.CREATED);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST); // En un caso real, usar un DTO de error
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -38,15 +38,14 @@ public class ProveedorController {
             Proveedor updatedProveedor = proveedorService.updateProveedor(id, proveedorDetails);
             return new ResponseEntity<>(updatedProveedor, HttpStatus.OK);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // O HttpStatus.BAD_REQUEST si la lógica de negocio falla
-        }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProveedor(@PathVariable Long id) {
         try {
             proveedorService.deleteProveedor(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content para eliminación exitosa
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
