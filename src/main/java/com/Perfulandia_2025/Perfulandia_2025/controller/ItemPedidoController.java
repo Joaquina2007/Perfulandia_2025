@@ -1,6 +1,8 @@
 package com.Perfulandia_2025.Perfulandia_2025.controller;
 
 import com.Perfulandia_2025.Perfulandia_2025.modelo.ItemPedido;
+import com.Perfulandia_2025.Perfulandia_2025.requestDTO.ItemPedidoRequestDTO;
+import com.Perfulandia_2025.Perfulandia_2025.responseDTO.ItemPedidoResponseDTO;
 import com.Perfulandia_2025.Perfulandia_2025.service.ItemPedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,31 +19,31 @@ public class ItemPedidoController {
     private ItemPedidoService itemPedidoService;
 
     @GetMapping
-    public ResponseEntity<List<ItemPedido>> getAllItemsPedido() {
-        List<ItemPedido> items = itemPedidoService.getAllItemPedido();
+    public ResponseEntity<List<ItemPedidoResponseDTO>> getAllItemsPedido() {
+        List<ItemPedidoResponseDTO> items = itemPedidoService.getAllItemsPedido();
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ItemPedido> getItemPedidoById(@PathVariable Long id) {
-        return itemPedidoService.getItemPedidoById(id)
-                .map(item -> new ResponseEntity<>(item, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<ItemPedidoResponseDTO> getItemPedidoById(@PathVariable Long id) {
+        return itemPedidoService.getItemPedidoById(id).map(itemDTO -> new ResponseEntity<>(itemDTO, HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/pedido/{pedidoId}")
-    public ResponseEntity<List<ItemPedido>> getItemsByPedido(@PathVariable Long pedidoId) {
-        List<ItemPedido> items = itemPedidoService.getItemsByPedidoReabastecimientoId(pedidoId);
+    public ResponseEntity<List<ItemPedidoResponseDTO>> getItemsByPedido(@PathVariable Long pedidoId) {
+        List<ItemPedidoResponseDTO> items = itemPedidoService.getItemsByPedidoReabastecimientoId(pedidoId);
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ItemPedido> updateItemPedido(@PathVariable Long id, @RequestBody ItemPedido itemPedidoDetails) {
+    public ResponseEntity<?> updateItemPedido(@PathVariable Long id, @RequestBody ItemPedidoRequestDTO itemPedidoRequestDTO) {
         try {
-            ItemPedido updatedItem = itemPedidoService.updateItemPedido(id, itemPedidoDetails);
+            ItemPedidoResponseDTO updatedItem = itemPedidoService.updateItemPedido(id, itemPedidoRequestDTO);
             return new ResponseEntity<>(updatedItem, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 

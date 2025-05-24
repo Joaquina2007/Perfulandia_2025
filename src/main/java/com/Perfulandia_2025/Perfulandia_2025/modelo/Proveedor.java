@@ -1,12 +1,9 @@
 package com.Perfulandia_2025.Perfulandia_2025.modelo;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "proveedor")
@@ -26,7 +23,7 @@ public class Proveedor {
     private String direccion;
 
     @Column
-    private int telefono;
+    private Integer telefono;
 
     @Column
     private String identificacion;

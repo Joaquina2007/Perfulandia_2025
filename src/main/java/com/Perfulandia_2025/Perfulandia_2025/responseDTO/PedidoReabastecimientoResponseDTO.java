@@ -12,7 +12,7 @@ import java.util.List;
 public class PedidoReabastecimientoResponseDTO {
 
     private Long id;
-    private Proveedor proveedor;
+    private Long proveedor;
     private String nombreProveedor;
     private LocalDate fechaPedido;
     private LocalDate fechaEntregaEstimada;

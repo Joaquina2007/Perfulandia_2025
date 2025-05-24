@@ -33,7 +33,7 @@ public class PedidoReabastecimiento {
     private String estadoPedido;
 
     @Column
-    private int totalPedido;
+    private Integer totalPedido;
 
     @OneToMany(mappedBy = "pedidoReabastecimiento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemPedido> itemPedidos;

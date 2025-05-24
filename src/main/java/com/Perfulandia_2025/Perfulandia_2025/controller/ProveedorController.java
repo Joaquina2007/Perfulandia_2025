@@ -1,6 +1,8 @@
 package com.Perfulandia_2025.Perfulandia_2025.controller;
 
 import com.Perfulandia_2025.Perfulandia_2025.modelo.Proveedor;
+import com.Perfulandia_2025.Perfulandia_2025.requestDTO.ProveedorRequestDTO;
+import com.Perfulandia_2025.Perfulandia_2025.responseDTO.ProveedorResponseDTO;
 import com.Perfulandia_2025.Perfulandia_2025.service.ProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,22 +25,27 @@ public class ProveedorController {
     }
 
     @PostMapping
-    public ResponseEntity<Proveedor> createProveedor(@RequestBody Proveedor proveedor) {
+    public ResponseEntity<?> createProveedor(@RequestBody ProveedorRequestDTO proveedorRequestDTO) {
         try {
-            Proveedor newProveedor = proveedorService.createProveedor(proveedor);
+            Proveedor newProveedor = proveedorService.createProveedor(proveedorRequestDTO);
             return new ResponseEntity<>(newProveedor, HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        } catch (IllegalArgumentException e) { // Captura excepciones de validación manual del servicio
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (RuntimeException e) { // Captura otras excepciones de negocio (ej. RUC duplicado)
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT); // 409 Conflict para duplicados
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Proveedor> updateProveedor(@PathVariable Long id, @RequestBody Proveedor proveedorDetails) {
+    public ResponseEntity<?> updateProveedor(@PathVariable Long id, @RequestBody ProveedorRequestDTO proveedorRequestDTO) {
         try {
-            Proveedor updatedProveedor = proveedorService.updateProveedor(id, proveedorDetails);
+            Proveedor updatedProveedor = proveedorService.updateProveedor(id, proveedorRequestDTO);
             return new ResponseEntity<>(updatedProveedor, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); }
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (RuntimeException e) { // Manejo de "Proveedor no encontrado"
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")

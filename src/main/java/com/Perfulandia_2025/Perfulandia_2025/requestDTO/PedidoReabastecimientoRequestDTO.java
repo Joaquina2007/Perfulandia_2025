@@ -12,10 +12,10 @@ import java.util.List;
 
 public class PedidoReabastecimientoRequestDTO {
 
-    private Proveedor proveedor;
+    private Long proveedor;
     private LocalDate fechaEntregaEstimada;
     private String estadoPedido;
-    private int totalPedido;
+    private Integer totalPedido;
     private List<ItemPedidoRequestDTO> itemPedidos;
 
 }

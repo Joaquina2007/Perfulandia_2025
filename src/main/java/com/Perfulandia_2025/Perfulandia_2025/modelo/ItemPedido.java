@@ -3,6 +3,8 @@ package com.Perfulandia_2025.Perfulandia_2025.modelo;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "item")
 @Getter
@@ -19,10 +21,10 @@ public class ItemPedido {
     private String descripcion;
 
     @Column
-    private int cantidadSolicitada;
+    private Integer cantidadSolicitada;
 
     @Column
-    private double precioUnitario;
+    private BigDecimal precioUnitario;
 
     @Column
     private String codigoProducto;

@@ -13,7 +13,7 @@ public class ProveedorResponseDTO {
     private Long id;
     private String nombre;
     private String direccion;
-    private int telefono;
+    private Integer telefono;
     private String identificacion;
     private Boolean estadoProveedor;
     private LocalDate fechaRegistro;

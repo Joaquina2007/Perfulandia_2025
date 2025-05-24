@@ -1,6 +1,8 @@
 package com.Perfulandia_2025.Perfulandia_2025.controller;
 
 import com.Perfulandia_2025.Perfulandia_2025.modelo.RecepcionMercancia;
+import com.Perfulandia_2025.Perfulandia_2025.requestDTO.RecepcionMercanciaRequestDTO;
+import com.Perfulandia_2025.Perfulandia_2025.responseDTO.RecepcionMercanciaResponseDTO;
 import com.Perfulandia_2025.Perfulandia_2025.service.RecepcionMercanciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,33 +19,37 @@ public class RecepcionMercanciaController {
     private RecepcionMercanciaService recepcionService;
 
     @GetMapping
-    public ResponseEntity<List<RecepcionMercancia>> getAllRecepciones() {
-        List<RecepcionMercancia> recepciones = recepcionService.getAllRecepciones();
+    public ResponseEntity<List<RecepcionMercanciaResponseDTO>> getAllRecepciones() {
+        List<RecepcionMercanciaResponseDTO> recepciones = recepcionService.getAllRecepciones();
         return new ResponseEntity<>(recepciones, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RecepcionMercancia> getRecepcionById(@PathVariable Long id) {
-        return recepcionService.getRecepcionById(id).map(recepcion -> new ResponseEntity<>(recepcion, HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<RecepcionMercanciaResponseDTO> getRecepcionById(@PathVariable Long id) {
+        return recepcionService.getRecepcionById(id).map(recepcionDTO -> new ResponseEntity<>(recepcionDTO, HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/pedido/{pedidoId}")
-    public ResponseEntity<RecepcionMercancia> registrarRecepcion(@PathVariable Long pedidoId, @RequestBody RecepcionMercancia recepcion) {
+    public ResponseEntity<?> registrarRecepcion(@PathVariable Long pedidoId, @RequestBody RecepcionMercanciaRequestDTO recepcionRequestDTO) {
         try {
-            RecepcionMercancia newRecepcion = recepcionService.registrarRecepcion(pedidoId, recepcion);
+            RecepcionMercanciaResponseDTO newRecepcion = recepcionService.registrarRecepcion(pedidoId, recepcionRequestDTO);
             return new ResponseEntity<>(newRecepcion, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RecepcionMercancia> updateRecepcion(@PathVariable Long id, @RequestBody RecepcionMercancia recepcionDetails) {
+    public ResponseEntity<?> updateRecepcion(@PathVariable Long id, @RequestBody RecepcionMercanciaRequestDTO recepcionRequestDTO) {
         try {
-            RecepcionMercancia updatedRecepcion = recepcionService.updateRecepcion(id, recepcionDetails);
+            RecepcionMercanciaResponseDTO updatedRecepcion = recepcionService.updateRecepcion(id, recepcionRequestDTO);
             return new ResponseEntity<>(updatedRecepcion, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 

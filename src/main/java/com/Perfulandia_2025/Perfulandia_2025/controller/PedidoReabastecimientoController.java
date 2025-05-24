@@ -1,6 +1,8 @@
 package com.Perfulandia_2025.Perfulandia_2025.controller;
 
 import com.Perfulandia_2025.Perfulandia_2025.modelo.PedidoReabastecimiento;
+import com.Perfulandia_2025.Perfulandia_2025.requestDTO.PedidoReabastecimientoRequestDTO;
+import com.Perfulandia_2025.Perfulandia_2025.responseDTO.PedidoReabastecimientoResponseDTO;
 import com.Perfulandia_2025.Perfulandia_2025.service.PedidoReabastecimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,44 +15,51 @@ import java.util.List;
 @RequestMapping("/api/pedidos")
 public class PedidoReabastecimientoController {
 
+    private final PedidoReabastecimientoService pedidoService;
+
     @Autowired
-    private PedidoReabastecimientoService pedidoService;
+    public PedidoReabastecimientoController(PedidoReabastecimientoService pedidoService) {
+        this.pedidoService = pedidoService;
+    }
 
     @GetMapping
-    public ResponseEntity<List<PedidoReabastecimiento>> getAllPedidos(){
-        List<PedidoReabastecimiento> pedidos = pedidoService.getAllPedidos();
+    public ResponseEntity<List<PedidoReabastecimientoResponseDTO>> getAllPedidos(){
+        List<PedidoReabastecimientoResponseDTO> pedidos = pedidoService.getAllPedidos();
         return new ResponseEntity<>(pedidos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PedidoReabastecimiento> getPedidoById(@PathVariable Long id) {
-        return pedidoService.getPedidoById(id)
-                .map(pedido -> new ResponseEntity<>(pedido, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<PedidoReabastecimientoResponseDTO> getPedidoById(@PathVariable Long id) {
+        return pedidoService.getPedidoById(id).map(pedidoDTO -> new ResponseEntity<>(pedidoDTO, HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/proveedor/{proveedorId}")
-    public ResponseEntity<List<PedidoReabastecimiento>> getPedidosByProveedor(@PathVariable Long proveedorId) {
-        List<PedidoReabastecimiento> pedidos = pedidoService.getPedidosByProveedor(proveedorId);
+    public ResponseEntity<List<PedidoReabastecimientoResponseDTO>> getPedidosByProveedor(@PathVariable Long proveedorId) {
+        List<PedidoReabastecimientoResponseDTO> pedidos = pedidoService.getPedidosByProveedor(proveedorId);
+        if (pedidos.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(pedidos, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<PedidoReabastecimiento> createPedido(@RequestBody PedidoReabastecimiento pedido) {
+    public ResponseEntity<PedidoReabastecimientoResponseDTO> createPedido(@RequestBody PedidoReabastecimientoRequestDTO pedidoRequestDTO) {
         try {
-            PedidoReabastecimiento newPedido = pedidoService.createPedido(pedido);
+            PedidoReabastecimientoResponseDTO newPedido = pedidoService.createPedido(pedidoRequestDTO);
             return new ResponseEntity<>(newPedido, HttpStatus.CREATED);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            System.err.println("Error al crear pedido: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PedidoReabastecimiento> updatePedido(@PathVariable Long id, @RequestBody PedidoReabastecimiento pedidoDetails) {
+    public ResponseEntity<PedidoReabastecimientoResponseDTO> updatePedido(@PathVariable Long id, @RequestBody PedidoReabastecimientoRequestDTO pedidoDetailsRequestDTO) {
         try {
-            PedidoReabastecimiento updatedPedido = pedidoService.updatePedido(id, pedidoDetails);
+            PedidoReabastecimientoResponseDTO updatedPedido = pedidoService.updatePedido(id, pedidoDetailsRequestDTO);
             return new ResponseEntity<>(updatedPedido, HttpStatus.OK);
         } catch (RuntimeException e) {
+            System.err.println("Error al actualizar pedido con ID " + id + ": " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -61,6 +70,7 @@ public class PedidoReabastecimientoController {
             pedidoService.deletePedido(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
+            System.err.println("Error al eliminar pedido con ID " + id + ": " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
