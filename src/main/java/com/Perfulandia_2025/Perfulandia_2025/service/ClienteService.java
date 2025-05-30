@@ -38,6 +38,6 @@ public class ClienteService {
         if (id < 0 || id >= clientes.size()) {
             return "Cliente not found";
         }
-   
+        return clientes.remove(id);
     }
 }
