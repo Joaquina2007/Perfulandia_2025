@@ -49,7 +49,5 @@ public class ClienteModel {
         return activo;
     }
 
-    public void setActivo(boolean activo) {
-        this.activo = activo;
-    }
+
 }
