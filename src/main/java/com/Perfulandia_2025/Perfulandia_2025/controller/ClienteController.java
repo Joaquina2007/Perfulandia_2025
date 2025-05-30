@@ -29,4 +29,8 @@ public class ClienteController {
         return "Updated cliente with ID " + id + " to: " + cliente;
     }
 
+    @DeleteMapping("/{id}")
+    public String deleteCliente(@PathVariable String id) {
+        return "Deleted cliente with ID: " + id;
+    }
 }
