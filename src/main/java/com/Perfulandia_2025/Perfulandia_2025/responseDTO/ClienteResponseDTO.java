@@ -18,6 +18,5 @@ public class ClienteResponseDTO {
         this.id = cliente.getId();
         this.nombre = cliente.getNombre();
         this.email = cliente.getCorreo();
-        this.activo = cliente.isActivo();
     }
 }
