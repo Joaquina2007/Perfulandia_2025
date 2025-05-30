@@ -12,6 +12,7 @@ public class ClienteController {
     public List<String> getAllClientes() {
         return List.of("Cliente 1", "Cliente 2", "Cliente 3");
     }
+    //crear clientes
 
     @GetMapping("/{id}")
     public String getClienteById(@PathVariable String id) {
@@ -28,8 +29,4 @@ public class ClienteController {
         return "Updated cliente with ID " + id + " to: " + cliente;
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteCliente(@PathVariable String id) {
-        return "Deleted cliente with ID: " + id;
-    }
 }
