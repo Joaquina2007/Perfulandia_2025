@@ -11,5 +11,5 @@ public interface ClienteRepository extends JpaRepository<ClienteModel, Long> {
 
     @Query("select new com.Perfulandia_2025.Perfulandia_2025.responseDTO.ClienteResponseDTO(c) " + // ¡Cambiado aquí!
             "from ClienteModel c where c.activo = true")
-
+    List<ClienteResponseDTO> findClientesActivos();
 }
