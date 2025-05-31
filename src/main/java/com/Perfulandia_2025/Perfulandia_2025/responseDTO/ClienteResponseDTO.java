@@ -9,15 +9,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClienteResponseDTO {
 
-    private Long id;
+    private Integer id;
     private String nombre;
     private String email;
-    private Boolean activo;
+    private String activo;
 
     public ClienteResponseDTO(com.Perfulandia_2025.Perfulandia_2025.modelo.ClienteModel cliente) {
         this.id = cliente.getId();
         this.nombre = cliente.getNombre();
         this.email = cliente.getCorreo();
-        this.activo = cliente.isActivo();
+        this.activo = cliente.getActivo();
     }
 }
