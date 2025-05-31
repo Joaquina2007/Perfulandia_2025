@@ -4,9 +4,11 @@ import com.Perfulandia_2025.Perfulandia_2025.modelo.ItemPedido;
 import com.Perfulandia_2025.Perfulandia_2025.repository.ItemPedidoRepository;
 import com.Perfulandia_2025.Perfulandia_2025.repository.PedidoReabastecimientoRepository;
 import com.Perfulandia_2025.Perfulandia_2025.requestDTO.ItemPedidoRequestDTO;
+import com.Perfulandia_2025.Perfulandia_2025.requestDTO.ProveedorRequestDTO;
 import com.Perfulandia_2025.Perfulandia_2025.responseDTO.ItemPedidoResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,12 +17,12 @@ import java.util.stream.Collectors;
 public class ItemPedidoService {
 
     @Autowired
-    private ItemPedidoRepository itemPedidoRepository;
+    private static ItemPedidoRepository itemPedidoRepository;
 
     @Autowired
     private PedidoReabastecimientoRepository pedidoReabastecimientoRepository;
 
-    public ItemPedido convertToEntity(ItemPedidoRequestDTO dto) {
+    public static ItemPedido convertToEntity(ProveedorRequestDTO dto) {
         ItemPedido itemPedido = new ItemPedido();
         itemPedido.setDescripcion(dto.getDescripcion());
         itemPedido.setCantidadSolicitada(dto.getCantidadSolicitada());
@@ -41,6 +43,12 @@ public class ItemPedidoService {
 
     public List<ItemPedidoResponseDTO> getAllItemsPedido() {
         return itemPedidoRepository.findAll().stream().map(this::convertToResponseDTO).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public static ItemPedido createItemPedido(ProveedorRequestDTO requestDTO){
+        ItemPedido itemPedidoParaGuardar = convertToEntity(requestDTO);
+        return itemPedidoRepository.save(itemPedidoParaGuardar);
     }
 
     public Optional<ItemPedidoResponseDTO> getItemPedidoById(Long id) {
