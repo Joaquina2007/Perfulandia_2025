@@ -1,43 +1,39 @@
 package com.Perfulandia_2025.Perfulandia_2025.service;
 
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.Perfulandia_2025.Perfulandia_2025.modelo.ClienteModel;
+import com.Perfulandia_2025.Perfulandia_2025.repository.ClienteRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@Transactional
 @Service
 public class ClienteService {
 
-    private List<String> clientes = new ArrayList<>(List.of("Cliente 1", "Cliente 2", "Cliente 3"));
+    @Autowired
+    private ClienteRepository cliRepository;
 
-    public List<String> getAllClientes() {
-        return clientes;
+    //Metodo Listar
+    public List<ClienteModel> findAll(){
+        return cliRepository.findAll();
+
+    }
+    //Metodo Guardar
+    public ClienteModel save(ClienteModel climod){
+        return cliRepository.save(climod);
+    }
+    //Metodo Eliminar
+    public void delete(long id){
+        cliRepository.deleteById(id);
+    }
+    //Metodo para Actualizar
+    public ClienteModel findById(long id){
+        return cliRepository.findById(id).get();
     }
 
-    public String getClienteById(int id) {
-        if (id < 0 || id >= clientes.size()) {
-            return "Cliente not found";
-        }
-        return clientes.get(id);
-    }
 
-    public String createCliente(String cliente) {
-        clientes.add(cliente);
-        return cliente;
-    }
 
-    public String updateCliente(int id, String cliente) {
-        if (id < 0 || id >= clientes.size()) {
-            return "Cliente not found";
-        }
-        clientes.set(id, cliente);
-        return cliente;
-    }
 
-    public String deleteCliente(int id) {
-        if (id < 0 || id >= clientes.size()) {
-            return "Cliente not found";
-        }
-        return clientes.remove(id);
-    }
 }
