@@ -11,7 +11,7 @@ import java.util.List;
 
 //http://localhost:8080/api/v1/inventario
 @RestController
-@RequestMapping("/api/v1/inventario")
+@RequestMapping("/api/v1/cliente")
 public class ClienteController {
 
     @Autowired
