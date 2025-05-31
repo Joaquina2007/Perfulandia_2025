@@ -1,7 +1,9 @@
 package com.Perfulandia_2025.Perfulandia_2025.controller;
 
 import com.Perfulandia_2025.Perfulandia_2025.modelo.ItemPedido;
+import com.Perfulandia_2025.Perfulandia_2025.modelo.Proveedor;
 import com.Perfulandia_2025.Perfulandia_2025.requestDTO.ItemPedidoRequestDTO;
+import com.Perfulandia_2025.Perfulandia_2025.requestDTO.ProveedorRequestDTO;
 import com.Perfulandia_2025.Perfulandia_2025.responseDTO.ItemPedidoResponseDTO;
 import com.Perfulandia_2025.Perfulandia_2025.service.ItemPedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,20 @@ public class ItemPedidoController {
         List<ItemPedidoResponseDTO> items = itemPedidoService.getAllItemsPedido();
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
+
+
+    @PostMapping
+    public ResponseEntity<?> createItemPedido(@RequestBody ProveedorRequestDTO itemPedidoRequestDTO) {
+        try {
+            ItemPedido newItemPedido = ItemPedidoService.createItemPedido(itemPedidoRequestDTO);
+            return new ResponseEntity<>(newItemPedido, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) { // Captura excepciones de validación manual del servicio
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (RuntimeException e) { // Captura otras excepciones de negocio (ej. RUC duplicado)
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT); // 409 Conflict para duplicados
+        }
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<ItemPedidoResponseDTO> getItemPedidoById(@PathVariable Long id) {
