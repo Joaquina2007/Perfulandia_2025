@@ -11,13 +11,13 @@ public class ClienteResponseDTO {
 
     private Integer id;
     private String nombre;
-    private String email;
-    private String activo;
+    private String correo;
+    private Boolean activo;
 
     public ClienteResponseDTO(com.Perfulandia_2025.Perfulandia_2025.modelo.ClienteModel cliente) {
         this.id = cliente.getId();
         this.nombre = cliente.getNombre();
-        this.email = cliente.getCorreo();
+        this.correo = cliente.getCorreo();
         this.activo = cliente.getActivo();
     }
 }
