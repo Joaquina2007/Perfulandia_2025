@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ClienteRepository extends JpaRepository<ClienteModel, Long> {
+public interface ClienteRepository extends JpaRepository<ClienteModel, Integer> {
 
     @Query("SELECT new com.Perfulandia_2025.Perfulandia_2025.responseDTO.ClienteResponseDTO(c) FROM ClienteModel c")
     List<ClienteResponseDTO> obtenerTodosClientesDTO();
