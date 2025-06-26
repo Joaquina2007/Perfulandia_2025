@@ -28,6 +28,6 @@ public class ClienteModel {
     private String correo;
 
     @Column(nullable = false)
-    private String activo;
-
+    private Boolean activo;
 }
+
