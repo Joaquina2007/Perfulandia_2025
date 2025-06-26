@@ -16,23 +16,23 @@ import java.util.Optional;
 @SpringBootTest
 class ClienteServiceTest {
 
-    // Inyecta el servicio de Cliente para ser probado.
+    // aqui para qie el cliente  puede se probaso
     @Autowired
     private ClienteService clienteService;
 
-    // Crea un mock del repositorio de Cliente para simular su comportamiento.
+    // aqui crear un mock para comprobar el comportamiento
     @MockBean
     private ClienteRepository clienteRepository;
 
     @Test
     public void testFindAll() {
-        // Define el comportamiento del mock: cuando se llame a findAll(), devuelve una lista con un Cliente.
-        when(clienteRepository.findAll()).thenReturn(List.of(new ClienteModel(1, "Juan Pérez", "juan.perez@example.com", true)));
+        // aqui definir el comportamiento.
+        when(clienteRepository.findAll()).thenReturn(List.of(new ClienteModel(1, "cristopher barrueto", "cristopher@duoc.com", true)));
 
-        // Llama al método findAll() del servicio.
+        // aqui llama al metodo
         List<ClienteModel> clientes = clienteService.findAll();
 
-        // Verifica que la lista devuelta no sea nula y contenga exactamente un Cliente.
+        // aquii verifica
         assertNotNull(clientes);
         assertEquals(1, clientes.size());
     }
@@ -40,45 +40,39 @@ class ClienteServiceTest {
     @Test
     public void testFindById() {
         Integer id = 1;
-        ClienteModel cliente = new ClienteModel(id, "Juan Pérez", "juan.perez@example.com", true);
-
-        // Define el comportamiento del mock: cuando se llame a findById() con 1, devuelve un Cliente opcional.
+        ClienteModel cliente = new ClienteModel(id, "cristopher barrueto", "cristopher@duoc.com", true);
         when(clienteRepository.findById(id)).thenReturn(Optional.of(cliente));
 
-        // Llama al método findById() del servicio.
+        // llamar el servicio
         ClienteModel found = clienteService.findById(id);
 
-        // Verifica que el Cliente devuelto no sea nulo y que su id coincida con el id esperado.
+        // aqui que no sea nulo .
         assertNotNull(found);
         assertEquals(id, found.getId());
     }
 
     @Test
     public void testSave() {
-        ClienteModel cliente = new ClienteModel(1, "Juan Pérez", "juan.perez@example.com", true);
+        ClienteModel cliente = new ClienteModel(1, "cristopher barrueto", "cristopher@duoc.com", true);
 
-        // Define el comportamiento del mock: cuando se llame a save(), devuelve el Cliente proporcionado.
         when(clienteRepository.save(cliente)).thenReturn(cliente);
 
         // Llama al método save() del servicio.
         ClienteModel saved = clienteService.save(cliente);
 
-        // Verifica que el Cliente guardado no sea nulo y que su nombre coincida con el nombre esperado.
+        // aque que coincida con el nombre esperado.
         assertNotNull(saved);
-        assertEquals("Juan Pérez", saved.getNombre());
+        assertEquals("cristopher barrueto", saved.getNombre());
     }
 
     @Test
     public void testDeleteById() {
         Integer id = 1;
 
-        // Define el comportamiento del mock: cuando se llame a deleteById(), no hace nada.
+        // 
         doNothing().when(clienteRepository).deleteById(id);
-
-        // Llama al método delete() del servicio.
         clienteService.delete(id);
 
-        // Verifica que el método deleteById() del repositorio se haya llamado exactamente una vez con el id proporcionado.
         verify(clienteRepository, times(1)).deleteById(id);
     }
 }
