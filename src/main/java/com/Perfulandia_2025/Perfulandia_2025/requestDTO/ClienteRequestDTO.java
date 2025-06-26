@@ -7,11 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class ClienteRequestDTO {
 
-    private Long id;
+    private Integer id;
     private String nombre;
-    private String email;
+    private String correo;
     private Boolean activo;
 }
