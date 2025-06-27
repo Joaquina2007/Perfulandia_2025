@@ -3,7 +3,7 @@ package com.Perfulandia_2025.Perfulandia_2025.Assembler;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import com.Perfulandia_2025.Perfulandia_2025.controller.ItemPedidoController;
-import com.Perfulandia_2025.Perfulandia_2025.model.ItemPedido;
+import com.Perfulandia_2025.Perfulandia_2025.modelo.ItemPedido;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
