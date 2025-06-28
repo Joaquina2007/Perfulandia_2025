@@ -15,3 +15,7 @@ public class Perfulandia2025Application {
 /*
 --enable-native-access=ALL-UNNAMED
 */
+
+/*
+http://localhost:8090/doc/swagger-ui/index.html
+*/
