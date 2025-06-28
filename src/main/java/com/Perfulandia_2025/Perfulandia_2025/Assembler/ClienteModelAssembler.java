@@ -16,7 +16,7 @@ public class ClienteModelAssembler implements RepresentationModelAssembler<Clien
     public EntityModel<ClienteModel> toModel(ClienteModel cliente) {
         return EntityModel.of(cliente,
                 linkTo(methodOn(ClienteController.class).getAllClientes()).withRel("clientes"),
-                linkTo(methodOn(ClienteController.class).updateCliente(cliente.getId(), null)).withSelfRel()
+                linkTo(methodOn(ClienteController.class).updateCliente(String.valueOf(cliente.getId()), null)).withSelfRel()
         );
     }
 }
