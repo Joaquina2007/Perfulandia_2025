@@ -77,8 +77,8 @@ public class ClienteControllerTest {
 
         // Ejecutamos POST /api/v1/cliente enviando JSON y verificamos respuesta
         mockMvc.perform(post("/api/v1/cliente")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(cliente)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(cliente)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.nombre").value("Cristopher Barrueto"))
@@ -94,8 +94,8 @@ public class ClienteControllerTest {
 
         // Ejecutamos PUT /api/v1/cliente/1 con JSON y validamos la respuesta
         mockMvc.perform(put("/api/v1/cliente/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(cliente)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(cliente)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.nombre").value("Cristopher Barrueto"))
