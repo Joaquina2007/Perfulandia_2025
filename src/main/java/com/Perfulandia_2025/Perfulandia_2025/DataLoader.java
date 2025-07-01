@@ -30,6 +30,17 @@ public abstract class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Faker faker = new Faker();
         Random random = new Random();
-    }
+        System.out.println("--- Iniciando la carga de datos para Perfulandia_2025 ---");
 
+        // --- Carga de 10 clientes de prueba --- (Funcionalidad existente)
+        System.out.println("Cargando 10 clientes de prueba...");
+        for (int i = 0; i < 10; i++) {
+            ClienteModel cliente = new ClienteModel();
+            cliente.setNombre(faker.name().fullName());
+            cliente.setCorreo(faker.internet().emailAddress());
+            cliente.setActivo(random.nextBoolean());
+            clienteRepository.save(cliente);
+        }
+        System.out.println("Clientes cargados.");
+    }
 }
