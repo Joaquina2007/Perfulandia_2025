@@ -55,4 +55,22 @@ public class DataLoader implements CommandLineRunner {
         }
         System.out.println("Clientes cargados.");
     }
+
+    for (int i = 0; i < 50; i++) {
+        ItemPedido itemPedido = new ItemPedido();
+        itemPedido.setId((long) (i + 1));
+        itemPedido.setCodigoProducto(faker.code().asin());
+        itemPedido.setDescripcion(faker.educator().course());
+        itemPedido.setPrecioUnitario(new BigDecimal(faker.commerce().price()));
+        itemPedidoRepository.save(itemPedido);
+    }
+
+    for (int i = 0; i < 50; i++) {
+        PedidoReabastecimiento pedidoReabastecimiento = new PedidoReabastecimiento();
+        pedidoReabastecimiento.setId((long) (i + 1));
+        pedidoReabastecimiento.setEstadoPedido(faker.educator().course());
+        pedidoReabastecimiento.setTotalPedido(Integer.valueOf(faker.commerce().price()));
+        pedidoReabastecimientoRepository.save(pedidoReabastecimiento);
+    }
+    
 }
