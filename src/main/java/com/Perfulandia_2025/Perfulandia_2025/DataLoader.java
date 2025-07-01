@@ -1,10 +1,15 @@
 package com.Perfulandia_2025.Perfulandia_2025;
 
+import com.Perfulandia_2025.Perfulandia_2025.modelo.ClienteModel;
 import com.Perfulandia_2025.Perfulandia_2025.modelo.ItemPedido;
 import com.Perfulandia_2025.Perfulandia_2025.modelo.PedidoReabastecimiento;
 import com.Perfulandia_2025.Perfulandia_2025.modelo.Proveedor;
 import com.Perfulandia_2025.Perfulandia_2025.modelo.RecepcionMercancia;
-import com.Perfulandia_2025.Perfulandia_2025.repository.*;
+import com.Perfulandia_2025.Perfulandia_2025.repository.ClienteRepository;
+import com.Perfulandia_2025.Perfulandia_2025.repository.ItemPedidoRepository;
+import com.Perfulandia_2025.Perfulandia_2025.repository.PedidoReabastecimientoRepository;
+import com.Perfulandia_2025.Perfulandia_2025.repository.ProveedorRepository;
+import com.Perfulandia_2025.Perfulandia_2025.repository.RecepcionMercanciaRepository;
 import net.datafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -13,23 +18,30 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @Component
-public abstract class DataLoader implements CommandLineRunner {
+public class DataLoader implements CommandLineRunner {
 
     @Autowired
     private ClienteRepository clienteRepository;
+    @Autowired // Se agregó Autowired para los nuevos repositorios
     private ItemPedidoRepository itemPedidoRepository;
+    @Autowired // Se agregó Autowired para los nuevos repositorios
     private PedidoReabastecimientoRepository pedidoReabastecimientoRepository;
+    @Autowired
     private ProveedorRepository proveedorRepository;
+    @Autowired 
     private RecepcionMercanciaRepository recepcionMercanciaRepository;
 
     @Override
+    @Transactional 
     public void run(String... args) throws Exception {
         Faker faker = new Faker();
         Random random = new Random();
+
         System.out.println("--- Iniciando la carga de datos para Perfulandia_2025 ---");
 
         // --- Carga de 10 clientes de prueba --- (Funcionalidad existente)
