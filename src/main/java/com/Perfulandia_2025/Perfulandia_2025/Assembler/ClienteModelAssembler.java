@@ -32,7 +32,7 @@ public class ClienteModelAssembler implements RepresentationModelAssembler<Clien
         // Crea y devuelve el EntityModel con enlaces a las operaciones relacionadas
         return EntityModel.of(cliente,
                 linkTo(methodOn(ClienteController.class).getAllClientes()).withRel("clientes"), // Enlace a la lista de clientes
-                linkTo(methodOn(ClienteController.class).updateCliente(Integer.valueOf(String.valueOf(cliente.getId())), null)).withSelfRel() // Enlace a la actualización del cliente
+                linkTo(methodOn(ClienteController.class).updateCliente(String.valueOf(Integer.valueOf(String.valueOf(cliente.getId()))), null)).withSelfRel() // Enlace a la actualización del cliente
         );
     }
 }
