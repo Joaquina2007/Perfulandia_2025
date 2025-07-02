@@ -18,8 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 @Component
@@ -33,11 +31,11 @@ public class DataLoader implements CommandLineRunner {
     private PedidoReabastecimientoRepository pedidoReabastecimientoRepository;
     @Autowired
     private ProveedorRepository proveedorRepository;
-    @Autowired 
+    @Autowired
     private RecepcionMercanciaRepository recepcionMercanciaRepository;
 
     @Override
-    @Transactional 
+    @Transactional
     public void run(String... args) throws Exception {
         Faker faker = new Faker();
         Random random = new Random();
@@ -56,22 +54,44 @@ public class DataLoader implements CommandLineRunner {
         System.out.println("Clientes cargados.");
 
         for (int i = 0; i < 50; i++) {
-        ItemPedido itemPedido = new ItemPedido();
-        itemPedido.setId((long) (i + 1));
-        itemPedido.setCodigoProducto(faker.code().asin());
-        itemPedido.setDescripcion(faker.educator().course());
-        itemPedido.setPrecioUnitario(new BigDecimal(faker.commerce().price()));
-        itemPedidoRepository.save(itemPedido);
+            ItemPedido itemPedido = new ItemPedido();
+            itemPedido.setId((long) (i + 1));
+            itemPedido.setCodigoProducto(faker.code().asin());
+            itemPedido.setDescripcion(faker.educator().course());
+            itemPedido.setPrecioUnitario(new BigDecimal(faker.commerce().price()));
+            itemPedidoRepository.save(itemPedido);
+        }
+
+        for (int i = 0; i < 50; i++) {
+            PedidoReabastecimiento pedidoReabastecimiento = new PedidoReabastecimiento();
+            pedidoReabastecimiento.setId((long) (i + 1));
+            pedidoReabastecimiento.setEstadoPedido(faker.educator().course());
+            pedidoReabastecimiento.setTotalPedido(Integer.valueOf(faker.commerce().price()));
+            pedidoReabastecimientoRepository.save(pedidoReabastecimiento);
+        }
+
+        for (int i = 0; i < 50; i++) {
+            Proveedor proveedor = new Proveedor();
+            proveedor.setId((long) (i + 1));
+            proveedor.setEstadoProveedor(random.nextBoolean());
+            proveedor.setIdentificacion(faker.educator().course());
+            proveedor.setNombre(faker.name().fullName());
+            proveedor.setDireccion(faker.educator().course());
+            proveedor.setTelefono(faker.number().numberBetween(100000000, 999999999));
+            proveedor.setFechaRegistro(LocalDate.now());
+            proveedorRepository.save(proveedor);
+        }
+
+        for (int i = 0; i < 50; i++) {
+            RecepcionMercancia recepcionMercancia = new RecepcionMercancia();
+            recepcionMercancia.setId((long) (i + 1));
+            recepcionMercancia.setEstadoRecepcion(faker.educator().course());
+            recepcionMercancia.setNotasRecepcion(faker.educator().course());
+            recepcionMercancia.setFechaRecepcion(LocalDate.now());
+            recepcionMercancia.setRecibidoPor(faker.educator().course());
+            recepcionMercanciaRepository.save(recepcionMercancia);
+        }
+
     }
 
-    for (int i = 0; i < 50; i++) {
-        PedidoReabastecimiento pedidoReabastecimiento = new PedidoReabastecimiento();
-        pedidoReabastecimiento.setId((long) (i + 1));
-        pedidoReabastecimiento.setEstadoPedido(faker.educator().course());
-        pedidoReabastecimiento.setTotalPedido(Integer.valueOf(faker.commerce().price()));
-        pedidoReabastecimientoRepository.save(pedidoReabastecimiento);
-    }
-        
-    }
-    
 }
