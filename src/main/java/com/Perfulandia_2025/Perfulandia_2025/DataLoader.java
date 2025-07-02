@@ -54,9 +54,8 @@ public class DataLoader implements CommandLineRunner {
             clienteRepository.save(cliente);
         }
         System.out.println("Clientes cargados.");
-    }
 
-    for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 50; i++) {
         ItemPedido itemPedido = new ItemPedido();
         itemPedido.setId((long) (i + 1));
         itemPedido.setCodigoProducto(faker.code().asin());
@@ -71,6 +70,8 @@ public class DataLoader implements CommandLineRunner {
         pedidoReabastecimiento.setEstadoPedido(faker.educator().course());
         pedidoReabastecimiento.setTotalPedido(Integer.valueOf(faker.commerce().price()));
         pedidoReabastecimientoRepository.save(pedidoReabastecimiento);
+    }
+        
     }
     
 }
